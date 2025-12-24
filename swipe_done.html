@@ -1,0 +1,43 @@
+{#
+  swipe_done.html
+  - Shown to recruiters when there are no more resumes left
+    to swipe in the selected job field.
+  - Gives them two options:
+      - go back to the homepage
+      - pick a (possibly different) field and restart swiping
+#}
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Centered shell to keep card at a comfortable width -->
+    <div class="rm-upload-shell">
+    <!-- Main card, text-centered for the "empty state" message -->
+        <div class="rm-card rm-card-tight text-center">
+
+        <!-- Circular icon above the heading to make the state feel intentional -->
+            <div class="rm-empty-state-icon">
+                ✓
+            </div>
+
+        <!-- Main message when the recruiter has finished a field -->
+            <h2 class="mb-2">No more resumes to review</h2>
+            <p class="text-muted-soft mb-4">
+                You’ve swiped through all available resumes in this field.
+            </p>
+
+        <!-- Actions: either return home or pick a field again -->
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <!-- Back to landing page -->
+                <a class="btn btn-outline-light" href="{{ url_for('index') }}">
+                    Back to home
+                </a>
+
+            <!-- Go back to field selection page to restart swiping -->
+                <a class="btn btn-primary" href="{{ url_for('swipe_select') }}">
+                    Restart swiping
+                </a>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

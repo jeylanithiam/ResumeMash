@@ -1,0 +1,102 @@
+{#
+  upload.html
+  - Candidate-only page where they:
+      1. Choose their target job field
+      2. Upload a single resume PDF
+  - After upload, the backend:
+      - extracts text from the PDF
+      - stores text + filename + job_field in the database
+      - redirects the user to their feedback page
+#}
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Shared centered shell used for upload/auth forms -->
+    <div class="rm-upload-shell">
+    <!-- Main card around the upload form -->
+        <div class="rm-card rm-card-tight">
+
+        <!-- Page heading + explanation -->
+            <div class="rm-page-header text-center">
+                <h2>Upload your resume</h2>
+                <p class="text-muted-soft">
+                    Choose your target field and upload a PDF so ResumeMash can analyze it.
+                </p>
+            </div>
+
+            <form method="post" enctype="multipart/form-data">
+            <!-- Job field dropdown:
+             - This is stored in resumes.job_field and is used
+               to:
+                 - filter which resumes recruiters see
+                 - decide which per-field model to train/use
+        -->
+                <div class="mb-3">
+                    <label class="form-label" for="job_field">What kind of role are you targeting?</label>
+                    <select class="form-select" id="job_field" name="job_field">
+                        <option value="">Select a field</option>
+                        <option value="software">Software / Engineering</option>
+                        <option value="data">Data / Analytics</option>
+                        <option value="finance">Finance</option>
+                        <option value="consulting">Consulting</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="product">Product Management</option>
+                        <option value="general">General / Other</option>
+                    </select>
+                </div>
+
+            <!-- Custom-styled file input:
+             - visually, the user clicks a blue "Choose file" button
+             - under the hood, that label programmatically clicks the
+               hidden <input type="file"> element
+             - a JS listener updates the filename text next to it
+        -->
+                <div class="mb-4">
+                    <label class="form-label">Choose your resume (PDF)</label>
+
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <!-- This label looks and behaves like the button -->
+                        <label for="resume" class="btn btn-primary mb-0">
+                            Choose file
+                        </label>
+
+                    <!-- This span shows whichever filename the user selected -->
+                        <span id="file-name" class="text-subtle">
+                            No file chosen
+                        </span>
+
+                    <!-- The real file input (hidden)
+                 - accept="application/pdf" restricts to PDFs in the chooser
+            -->
+                        <input type="file" id="resume" name="resume" accept="application/pdf" hidden>
+                    </div>
+                </div>
+
+            <!-- Submit button to actually upload the file + field choice -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">
+                        Upload
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+<!-- Small bit of JS to keep the "No file chosen" label in sync with input -->
+    <script>
+    // Update the "No file chosen" text when a file is selected
+        document.addEventListener("DOMContentLoaded", function() {
+            const input = document.getElementById("resume");
+            const label = document.getElementById("file-name");
+
+            input.addEventListener("change", function() {
+                if (this.files && this.files.length > 0) {
+                    label.textContent = this.files[0].name;
+                } else {
+                    label.textContent = "No file chosen";
+                }
+            });
+        });
+    </script>
+{% endblock %}

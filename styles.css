@@ -1,0 +1,359 @@
+/*
+   ResumeMash Dark Theme
+   - Dark navy background
+   - Light blue highlights
+   */
+
+:root {
+    /* Core colors */
+    --rm-bg: #020617;
+    /* page background (very dark navy) */
+    --rm-surface: #0b1220;
+    /* nav + panels background */
+    --rm-surface-soft: #111827;
+    /* card background */
+    --rm-border-subtle: #1f2937;
+    /* subtle card boarder */
+
+    --rm-text-main: #e5e7eb;
+    /* main text: light gray */
+    --rm-text-muted: #9ca3af;
+    /* muted gray text for secondary text */
+    --rm-text-subtle: #6b7280;
+    /* extra muted text for 3rd text */
+
+    /* brand accent colors + primary buttons */
+    --rm-accent: #38bdf8;
+    /* light blue accent */
+    --rm-accent-soft: rgba(56, 189, 248, 0.12);
+    /* blue background */
+
+    /* Pass / Mash buttons */
+    --rm-pass: #22c55e;
+    /* green */
+    --rm-pass-hover: #16a34a;
+    --rm-pass-soft: rgba(34, 197, 94, 0.15);
+
+    --rm-fail: #ef4444;
+    /* red */
+    --rm-fail-hover: #dc2626;
+    --rm-fail-soft: rgba(239, 68, 68, 0.15);
+
+    /* radius + shadow */
+    --rm-radius-md: 0.75rem;
+    --rm-radius-lg: 1.2rem;
+    --rm-shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.65);
+}
+
+/* Global */
+
+/* make page a flex column so that the footer sticks to the bottom */
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--rm-bg);
+    color: var(--rm-text-main);
+}
+
+/* Main content area
+   - flex: 1 => takes remaining vertical space between navbar and footer
+   - padding so content isn't glued to the navbar/footer */
+
+.main-content {
+    flex: 1 0 auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* Horizontal page container to keep content centered and not too wide */
+.page-shell {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+
+/* Typography */
+
+h1,
+h2,
+h3 {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #f9fafb;
+}
+
+h1 {
+    font-size: clamp(2.2rem, 3vw, 2.7rem);
+}
+
+h2 {
+    font-size: clamp(1.6rem, 2.4vw, 2rem);
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+/* Utility classes for text tone */
+.text-muted-soft {
+    color: var(--rm-text-muted);
+}
+
+.text-subtle {
+    color: var(--rm-text-subtle);
+}
+
+/*  Navbar  */
+
+.navbar {
+    background-color: var(--rm-surface) !important;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+/* Brand "ResumeMash" top-left */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    color: #f9fafb !important;
+}
+
+/* Make "Resume" white and "Mash" blue */
+.navbar-brand span {
+    color: var(--rm-accent);
+}
+
+/* Right-hand nav links (Log in, Sign up, Upload Resume, etc.) */
+.navbar-dark .navbar-nav .nav-link {
+    color: #cbd5f5;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: #ffffff;
+}
+
+/*  Cards / Panels  */
+
+/* Main card container around each page's content */
+.rm-card {
+    background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.1), transparent),
+        var(--rm-surface-soft);
+    border-radius: var(--rm-radius-lg);
+    border: 1px solid var(--rm-border-subtle);
+    box-shadow: var(--rm-shadow-soft);
+    padding: 2rem 2.5rem;
+}
+
+.rm-card-tight {
+    padding: 1.5rem 2rem;
+}
+
+/* Page header block used on forms / pages */
+.rm-page-header {
+    margin-bottom: 1.75rem;
+}
+
+.rm-page-header h1,
+.rm-page-header h2 {
+    margin-bottom: 0.35rem;
+}
+
+.rm-page-header p {
+    margin-bottom: 0;
+    color: var(--rm-text-muted);
+}
+
+/*  Buttons  */
+
+/* Generic primary button (blue accent) */
+.btn-primary {
+    background-color: var(--rm-accent);
+    border-color: var(--rm-accent);
+    border-radius: 999px;
+    padding-inline: 1.5rem;
+    font-weight: 600;
+    color: #0b1220;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #0ea5e9;
+    border-color: #0ea5e9;
+    color: #020617;
+}
+
+/* Outline light for nav / secondary actions */
+.btn-outline-light {
+    border-radius: 999px;
+    font-weight: 500;
+    border-color: rgba(148, 163, 184, 0.4);
+    color: #e5e7eb;
+}
+
+.btn-outline-light:hover {
+    border-color: #e5e7eb;
+    background-color: rgba(249, 250, 251, 0.06);
+}
+
+/* Green "Mash" button */
+.btn-pass {
+    background-color: var(--rm-pass-soft);
+    border-radius: 999px;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    color: #bbf7d0;
+    font-weight: 700;
+    padding-inline: 2.2rem;
+    padding-block: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.btn-pass:hover,
+.btn-pass:focus {
+    background-color: var(--rm-pass);
+    border-color: var(--rm-pass-hover);
+    color: #f9fafb;
+}
+
+/* Red "Pass" button */
+.btn-fail {
+    background-color: var(--rm-fail-soft);
+    border-radius: 999px;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fecaca;
+    font-weight: 700;
+    padding-inline: 2.2rem;
+    padding-block: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.btn-fail:hover,
+.btn-fail:focus {
+    background-color: var(--rm-fail);
+    border-color: var(--rm-fail-hover);
+    color: #f9fafb;
+}
+
+/*  Forms  */
+
+.form-label {
+    font-weight: 500;
+    color: #e5e7eb;
+}
+
+/* Shared styles for text inputs + selects */
+.form-control,
+.form-select {
+    background-color: #020617;
+    color: var(--rm-text-main);
+    border-radius: 0.8rem;
+    border: 1px solid #1f2937;
+    padding: 0.55rem 0.9rem;
+}
+
+.form-control::placeholder {
+    color: var(--rm-text-subtle);
+}
+
+/* Focus state: blue outline rather than default Bootstrap shadow */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--rm-accent);
+    box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+    background-color: #020617;
+    color: var(--rm-text-main);
+}
+
+/* File input label in dark mode */
+.form-control[type="file"] {
+    color: var(--rm-text-muted);
+}
+
+/*  Upload / Auth pages  */
+
+.rm-upload-shell,
+.rm-auth-shell {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+/*  Feedback score pill  */
+
+.rm-score-pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    background-color: var(--rm-accent-soft);
+    color: #e0f2fe;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/*  Swipe page layout  */
+
+.rm-swipe-header {
+    margin-bottom: 1rem;
+}
+
+.rm-swipe-header h2 {
+    margin-bottom: 0.15rem;
+}
+
+.rm-swipe-header p {
+    color: var(--rm-text-muted);
+}
+
+/* Bottom sticky action bar */
+.rm-swipe-actions {
+    position: sticky;
+    bottom: 0;
+    padding-top: 1.25rem;
+    padding-bottom: 0.25rem;
+    background: linear-gradient(to top,
+            rgba(2, 6, 23, 0.95),
+            rgba(2, 6, 23, 0.6),
+            transparent);
+}
+
+/*  Empty / done state  */
+
+.rm-empty-state-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 999px;
+    background-color: var(--rm-accent-soft);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #7dd3fc;
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+}
+
+/*  Footer  */
+
+.rm-footer {
+    flex-shrink: 0;
+    /* don't let footer collapse in flex layout */
+    border-top: 1px solid rgba(15, 23, 42, 0.85);
+    background: radial-gradient(circle at top left, #0f172a, #020617);
+    padding: 0.75rem 0;
+    margin-top: 0;
+}
+
+.rm-footer-text {
+    font-size: 0.8rem;
+    color: rgba(148, 163, 184, 0.9);
+}

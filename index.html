@@ -1,0 +1,104 @@
+{#
+  index.html
+  - Landing page for ResumeMash.
+  - Behavior:
+    - If user is not logged in: show product blurb + log in / sign up buttons.
+    - If logged in as candidate: show CTA to upload resume.
+    - If logged in as recruiter: show CTA to pick a field and start swiping.
+#}
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Outer shell keeps content centered and limits max width -->
+    <div class="rm-upload-shell">
+    <!-- Main hero card for the homepage -->
+        <div class="rm-card">
+
+        <!-- Hero title + one-line product description -->
+            <div class="rm-page-header text-center">
+                <h1>Turn resumes into swipeable signals.</h1>
+                <p class="text-muted-soft">
+                    ResumeMash lets recruiters swipe “Pass” or “Mash” on real resumes,
+                    and uses those decisions to train an AI that gives candidates
+                    field-specific resume feedback.
+                </p>
+            </div>
+
+        <!-- Central call-to-action area, changes based on login state / role -->
+            <div class="text-center mb-4">
+                {% if session.get("user_id") %}
+            {# User is logged in #}
+
+                    {% if session.get("role") == "candidate" %}
+            {# Candidate view: prompt them to upload their resume #}
+                        <p class="text-subtle mb-3">
+                            You’re signed in as a candidate. Upload your resume to get AI feedback
+                            tailored to your target field.
+                        </p>
+                        <a class="btn btn-primary btn-lg" href="{{ url_for('upload') }}">
+                            Upload my resume
+                        </a>
+
+                    {% elif session.get("role") == "recruiter" %}
+            {# Recruiter view: send them to choose a field and swipe #}
+                        <p class="text-subtle mb-3">
+                            You’re signed in as a recruiter. Pick a field and start swiping to
+                            help train the model.
+                        </p>
+                        <a class="btn btn-primary btn-lg" href="{{ url_for('swipe_select') }}">
+                            Start swiping resumes
+                        </a>
+                    {% endif %}
+
+                {% else %}
+            {# Not logged in: generic explanation + log in / sign up buttons #}
+                    <p class="text-subtle mb-3">
+                        Log in as a candidate to upload your resume, or as a recruiter to start swiping.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">
+                            Log in
+                        </a>
+                        <a class="btn btn-outline-light btn-lg" href="{{ url_for('register') }}">
+                            Create an account
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+        <!-- Divider between CTA and feature explanations -->
+            <hr class="border-secondary mb-4">
+
+        <!-- Three-column section describing how ResumeMash works -->
+            <div class="row text-subtle">
+            <!-- Column 1: candidate experience -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h6 class="text-muted-soft">For candidates</h6>
+                    <p class="mb-0">
+                        Upload your PDF once, choose your target field, and see how your resume
+                        performs as recruiters swipe.
+                    </p>
+                </div>
+
+            <!-- Column 2: recruiter experience -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h6 class="text-muted-soft">For recruiters</h6>
+                    <p class="mb-0">
+                        Swipe through real resumes in a Tinder-style interface and teach the
+                        model what “good” looks like.
+                    </p>
+                </div>
+
+            <!-- Column 3: brief technical description -->
+                <div class="col-md-4">
+                    <h6 class="text-muted-soft">Under the hood</h6>
+                    <p class="mb-0">
+                        Per-field models learn from swipes and return a ResumeMash score
+                        plus qualitative feedback.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

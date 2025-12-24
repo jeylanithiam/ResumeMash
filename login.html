@@ -1,0 +1,51 @@
+{#
+  login.html
+  - Simple login form for existing users.
+  - After logging in, candidates can upload resumes / see feedback,
+    and recruiters can swipe on resumes.
+#}
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Centered shell that limits max width for auth forms -->
+    <div class="rm-auth-shell">
+    <!-- Main card around the login form -->
+        <div class="rm-card rm-card-tight">
+
+        <!-- Heading + short description -->
+            <div class="rm-page-header text-center">
+                <h2>Log in</h2>
+                <p class="text-muted-soft">
+                    Welcome back. Log in to upload resumes or swipe through candidates.
+                </p>
+            </div>
+
+        <!-- Login form posts back to /login (Flask login route) -->
+            <form action="{{ url_for('login') }}" method="post">
+            <!-- Username input -->
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" type="text" name="username" id="username" autofocus>
+                </div>
+
+            <!-- Password input -->
+                <div class="mb-4">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" type="password" name="password" id="password">
+                </div>
+
+            <!-- Submit button + link to registration -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <button class="btn btn-primary" type="submit">
+                        Log in
+                    </button>
+                    <span class="text-subtle" style="font-size: 0.85rem;">
+                        Don’t have an account?
+                        <a href="{{ url_for('register') }}">Sign up</a>
+                    </span>
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

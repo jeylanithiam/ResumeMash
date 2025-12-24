@@ -1,0 +1,98 @@
+{#
+  feedback.html
+  - Candidate-only page that shows:
+    - Target job field
+    - AI score (if enough data)
+    - A short feedback message
+    - Embedded PDF of their latest resume
+#}
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Outer shell centers the card and keeps max-width consistent -->
+    <div class="rm-upload-shell">
+    <!-- Main card for the page content -->
+        <div class="rm-card rm-card-tight">
+
+        <!-- Page header: title + target job field -->
+            <div class="rm-page-header text-center">
+                <h2>AI Resume Feedback</h2>
+                <p class="text-muted-soft">
+                <!-- job_field is stored lowercase in DB; title filter makes it pretty -->
+                    Target field: {{ resume.job_field|title }}
+                </p>
+            </div>
+
+        <!-- If we have an AI score for this resume / field, show it -->
+            {% if score_pct is not none %}
+                <div class="text-center mb-4">
+                    <p class="mb-1 text-muted-soft">
+                        Your current ResumeMash score
+                    </p>
+
+            <!-- Big percentage + small pill explaining what that number means -->
+                    <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                        <span class="display-5">{{ score_pct }}%</span>
+                        <span class="rm-score-pill">
+                            <span>Recruiter “Mash” likelihood</span>
+                        </span>
+                    </div>
+
+                    <p class="text-subtle mb-0">
+                <!-- Plain-language explanation of the score for the user -->
+                        This is the model’s estimate of how likely recruiters in this field are
+                        to swipe “Mash” on a resume like yours, based on past swipes.
+                    </p>
+                </div>
+
+        <!-- Otherwise, not enough data yet to train a model for this field -->
+            {% else %}
+                <div class="text-center mb-4">
+                    <p class="mb-2">
+                        We don’t have enough recruiter swipes in this field yet to score your resume.
+                    </p>
+                    <p class="text-subtle mb-0">
+                        As more recruiters swipe on {{ resume.job_field }} resumes, we’ll be able
+                        to generate a score and more specific feedback.
+                    </p>
+                </div>
+            {% endif %}
+
+        <!-- Optional text feedback generated from the score bucket (low/medium/high) -->
+            {% if feedback_message %}
+                <div class="mb-4">
+            <!-- Nested card with slightly darker background, no extra shadow -->
+                    <div class="rm-card rm-card-tight" style="background: rgba(15,23,42,0.9); box-shadow: none;">
+                        <h5 class="mb-2">What this means</h5>
+                        <p class="mb-0 text-muted-soft">{{ feedback_message }}</p>
+                    </div>
+                </div>
+            {% endif %}
+
+        <!-- Header row above the embedded resume PDF -->
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Your latest uploaded resume</h5>
+            <!-- Show which file is being previewed -->
+                <span class="text-subtle" style="font-size: 0.85rem;">
+                    File: {{ resume.filename }}
+                </span>
+            </div>
+
+        <!-- PDF viewer: uses iframe with URL flags to hide toolbar / side panel -->
+            <div class="mb-4" style="border-radius: 0.9rem; overflow: hidden; border: 1px solid #1f2937;">
+                <iframe src="{{ url_for('uploaded_file', filename=resume.filename) }}#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="600" style="border: none;"></iframe>
+            </div>
+
+        <!-- Bottom actions: upload a new version or go back home -->
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-light" href="{{ url_for('upload') }}">
+                    Upload a new version
+                </a>
+                <a class="btn btn-primary" href="{{ url_for('index') }}">
+                    Back to home
+                </a>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{#
+  swipe_select.html
+  - Recruiter-only page where they choose which job field to swipe on.
+  - The backend:
+      - passes in a list of (value, label) pairs as "fields"
+      - stores the selected field in the session
+      - redirects to /swipe so only resumes for that field are shown
+#}
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Shared shell for centered form pages -->
+    <div class="rm-upload-shell">
+    <!-- Main card containing the field selection form -->
+        <div class="rm-card rm-card-tight">
+
+        <!-- Page heading + explanation -->
+            <div class="rm-page-header text-center">
+                <h2>Choose a job field to swipe</h2>
+                <p class="text-muted-soft">
+                    Pick a field and ResumeMash will only show you resumes targeting that type of role.
+                </p>
+            </div>
+
+        <!-- Simple POST form with a single select input -->
+            <form method="post">
+                <div class="mb-4">
+                    <label class="form-label" for="job_field">Job field</label>
+                    <select class="form-select" id="job_field" name="job_field">
+                        <option value="">Select a field</option>
+                    {# "fields" is a list of (value, label) tuples from app.py #}
+                        {% for value, label in fields %}
+                            <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            <!-- Submit button centered under the dropdown -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">
+                        Start swiping
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{#
+  register.html
+  - Registration form for new users.
+  - Collects:
+      - first name, last name
+      - email, phone
+      - username + password
+      - role: candidate or recruiter
+#}
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Centered shell for auth-style pages (login + register) -->
+    <div class="rm-auth-shell">
+    <!-- Main card wrapping the sign-up form -->
+        <div class="rm-card rm-card-tight">
+
+        <!-- Page heading + short description -->
+            <div class="rm-page-header text-center">
+                <h2>Create an account</h2>
+                <p class="text-muted-soft">
+                    Sign up as a candidate to upload resumes, or as a recruiter to start swiping.
+                </p>
+            </div>
+
+        <!-- Form posts to /register route  -->
+            <form action="{{ url_for('register') }}" method="post">
+            <!-- First / Last name on the same row for medium+ screens -->
+                <div class="row">
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="first_name">First name</label>
+                        <input class="form-control" type="text" name="first_name" id="first_name" autofocus>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="last_name">Last name</label>
+                        <input class="form-control" type="text" name="last_name" id="last_name">
+                    </div>
+                </div>
+
+            <!-- Contact info -->
+                <div class="mb-3">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control" type="email" name="email" id="email">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="phone">Phone number</label>
+                    <input class="form-control" type="text" name="phone" id="phone">
+                </div>
+
+            <!-- Username + password -->
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" type="text" name="username" id="username">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" type="password" name="password" id="password">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="confirmation">Confirm password</label>
+                    <input class="form-control" type="password" name="confirmation" id="confirmation">
+                </div>
+
+            <!-- Role selection: candidate or recruiter.
+             This directly maps to the "role" column in the users table. -->
+                <div class="mb-4">
+                    <label class="form-label d-block">I am a</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="role" id="candidate" value="candidate">
+                        <label class="form-check-label" for="candidate">Candidate</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="role" id="recruiter" value="recruiter">
+                        <label class="form-check-label" for="recruiter">Recruiter</label>
+                    </div>
+                </div>
+
+            <!-- Submit button + link back to login for existing users -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <button class="btn btn-primary" type="submit">
+                        Sign up
+                    </button>
+                    <span class="text-subtle" style="font-size: 0.85rem;">
+                        Already have an account?
+                        <a href="{{ url_for('login') }}">Log in</a>
+                    </span>
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
